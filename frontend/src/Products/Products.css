@@ -1,0 +1,6 @@
+/* Product.css */
+.slick-prev,
+.slick-next {
+  top: 40%;
+  cursor: pointer;
+}

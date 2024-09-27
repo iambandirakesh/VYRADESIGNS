@@ -1,9 +1,15 @@
 import React from "react";
 import "./Loading.css";
-function Loading() {
+function Loading({ data }) {
   return (
     <div>
-      <div class="loader-container">
+      <div
+        class={`${
+          data === "products"
+            ? "loader-container-product"
+            : "loader-container-main"
+        }`}
+      >
         <div class="bouncing-dots">
           <div class="dot"></div>
           <div class="dot"></div>

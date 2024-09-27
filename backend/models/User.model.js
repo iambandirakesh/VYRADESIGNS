@@ -29,6 +29,9 @@ const userSchema = new Schema(
     profilePic: {
       type: String,
     },
+    Cart: {
+      type: [],
+    },
     isAdmin: {
       type: Boolean,
       default: false,

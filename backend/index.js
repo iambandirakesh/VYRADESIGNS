@@ -19,7 +19,7 @@ app.use("*", (req, res) => {
   res.status(404).send("Page not found");
 });
 const PORT = process.env.PORT || 5000;
-app.listen(5000, (PORT) => {
+app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
   ConnectDB();
 });

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import VyraDesignsWhiteLogo from "../assets/vyradesigns-logo.png";
-import VyraDesignsBlackLogo from "../assets/vyradesigns-white-transparent.png";
+import VyraDesignsWhiteLogo from "../assets/logos/vyradesigns-logo.png";
+import VyraDesignsBlackLogo from "../assets/logos/vyradesigns-white-transparent.png";
 import { Link } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoPersonSharp } from "react-icons/io5";
 import { RiMenuFill } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
-
+import { useDispatch } from "react-redux";
+import { setMode } from "../Redux/modeSlice";
 const Header = () => {
+  const dispatch = useDispatch();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("color-theme") === "dark" ||
@@ -18,17 +20,19 @@ const Header = () => {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
+      dispatch(setMode("dark"));
       localStorage.setItem("color-theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("color-theme", "light");
+      dispatch(setMode("light"));
     }
-  }, [darkMode]);
+  }, [darkMode, dispatch]);
 
   const toggleTheme = () => {
+    dispatch(setMode(darkMode ? "light" : "dark"));
     setDarkMode(!darkMode);
   };
-
   return (
     <nav className="w-full h-24 bg-white dark:bg-gray-900 shadow-md flex items-center">
       <div className="w-full flex flex-row justify-between items-center px-5">

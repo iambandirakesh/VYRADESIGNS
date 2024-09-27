@@ -12,17 +12,28 @@ const ProductSchema = new Schema(
       type: Number,
       required: true,
     },
+    brand: {
+      type: String,
+    },
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
+    },
+    categoryName: {
+      type: String,
       required: true,
     },
     quantity: {
       type: Number,
     },
     images: {
-      type: String,
+      type: {},
       required: true,
+    },
+    rating: {
+      type: Number,
+      default: 0,
     },
     createdAt: {
       type: Date,

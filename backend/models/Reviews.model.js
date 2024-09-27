@@ -10,6 +10,11 @@ const reviewSchema = new Schema({
   photos: {
     type: Image,
   },
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

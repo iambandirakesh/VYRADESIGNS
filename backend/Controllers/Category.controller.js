@@ -25,10 +25,9 @@ export const getCategory = async (req, res) => {
 
 export const createCategory = async (req, res) => {
   try {
-    const CategoryData = req.body;
-    const newCategory = new Category(CategoryData);
-    const result = await newCategory.save();
-    res.status(200).send({ status: true, data: result });
+    const CategoryName = req.body;
+    const newCategory = await Category.create(CategoryName);
+    res.status(200).send({ status: true, data: newCategory });
   } catch (err) {
     res.status(401).send({ status: false, message: err.message });
   }
