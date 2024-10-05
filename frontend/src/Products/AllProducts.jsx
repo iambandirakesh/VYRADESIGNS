@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  DeleteProduct,
-  GetAllProducts,
-  UpdateProduct,
-} from "../apiCalls/Product";
+import React, { useState } from "react";
+import { DeleteProduct, UpdateProduct } from "../apiCalls/Product";
 import Loading from "../Loading/Loading";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import FreeSoloCreateOptionDialog from "../helpers.jsx/AutoComplete";
 import uploadFile from "../apiCalls/UploadFile";
 import { RxCross2 } from "react-icons/rx";
+import { setProducts } from "../Redux/ProductsSlice";
+import { useDispatch } from "react-redux";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import AddNewProduct from "./AddNewProduct";
 function AllProducts() {
-  const category = useSelector((state) => state.category.category);
+  const products = useSelector((state) => state.products.products);
   const [Images, setImages] = useState([]);
   const [id, setId] = useState("");
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editProduct, setEditProduct] = useState(false);
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
   const [editProductData, setEditProductData] = useState({
     name: "",
     brand: "",
@@ -33,7 +33,7 @@ function AllProducts() {
     setImages(newImages);
   };
   const handleEditProduct = (product) => {
-    setEditProduct(true);
+    setCurrentPage(2);
     setId(product._id);
     setEditProductData({
       name: product.name,
@@ -56,23 +56,10 @@ function AllProducts() {
     const file = e.target.files[0];
     if (!file) return;
     const cloudinaryPhoto = await uploadFile(file);
+    console.log(cloudinaryPhoto.secure_url);
     setImages([...Images, cloudinaryPhoto.secure_url]);
+    console.log(Images);
   };
-
-  useEffect(() => {
-    const fetchAllProducts = async () => {
-      const response = await GetAllProducts();
-      setProducts(response.data.data);
-      console.log(response.data.data);
-      if (response.data.status) {
-        setLoading(false);
-      } else {
-        setLoading(true);
-      }
-    };
-    fetchAllProducts();
-  }, []);
-
   const handleDeleteProduct = async (id) => {
     console.log(id);
     const confirmDelete = window.confirm("Are you sure you want to delete?");
@@ -80,7 +67,7 @@ function AllProducts() {
     const response = await DeleteProduct({ _id: id });
     if (response.data.status) {
       toast.success("Product deleted successfully");
-      setProducts(products.filter((product) => product._id !== id));
+      dispatch(setProducts(products.filter((product) => product._id !== id)));
     } else {
       toast.error("Product not deleted");
     }
@@ -90,26 +77,40 @@ function AllProducts() {
     e.preventDefault();
     const response = await UpdateProduct({
       productId: id,
-      ProductData: editProductData,
+      ProductData: { ...editProductData, images: { ...Images } },
     });
     if (response.data.status) {
       toast.success("Product updated successfully");
-      setProducts(
-        products.map((product) =>
-          product._id === id ? editProductData : product
+
+      dispatch(
+        setProducts(
+          products.map((product) =>
+            product._id === id
+              ? { ...product, ...editProductData, images: { ...Images } }
+              : product
+          )
         )
       );
-      setEditProduct(false);
+
+      setCurrentPage(1);
     } else {
       toast.error("Product not updated");
     }
   };
 
   return (
-    <div className="w-full">
-      {!editProduct && (
+    <div className="w-full dark:bg-gray-800">
+      {currentPage === 1 && (
         <div className="p-2 flex flex-col w-full gap-4">
-          <h1 className="font-bold text-lg dark:text-white">All Products</h1>
+          <div className="flex items-center gap-5 dark:dark:text-white">
+            <h1 className="font-bold text-lg">All Products</h1>
+            <button
+              className="bg-gray-200 w-36 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500"
+              onClick={() => setCurrentPage(3)}
+            >
+              Add New Product
+            </button>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-100 dark:bg-gray-700">
@@ -183,12 +184,15 @@ function AllProducts() {
         </div>
       )}
 
-      {editProduct && (
-        <div className="w-full">
+      {currentPage === 2 && (
+        <div className="w-full relative">
+          <div className="absolute top-[-40px] left-1 lg:top-2 lg:left-44 xl:left-72 cursor-pointer dark:text-white ">
+            <IoMdArrowRoundBack size={25} onClick={() => setCurrentPage(1)} />
+          </div>
           <section class="bg-white dark:bg-gray-900">
             <div class="px-4 mx-auto max-w-2xl">
               <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-                Add a new product
+                Update your ProductData
               </h2>
               <form action="#">
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -313,14 +317,14 @@ function AllProducts() {
                     </label>
                   </div>
                   {Images.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-3 w-full">
+                    <div className=" flex flex-wrap justify-center gap-3 w-full">
                       {Images.map((image, idx) => {
                         return (
                           <div className="relative">
                             <img
                               src={image}
-                              width={150}
-                              height={150}
+                              width={120}
+                              height={120}
                               alt={`Cloudinary ${idx}`}
                             />
                             <div
@@ -365,6 +369,7 @@ function AllProducts() {
           </section>
         </div>
       )}
+      {currentPage === 3 && <AddNewProduct />}
     </div>
   );
 }

@@ -42,6 +42,7 @@ export const DeleteProduct = async (val) => {
   }
 };
 export const UpdateProduct = async (val) => {
+  console.log("Fom update Product apicall", val);
   try {
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/product/update-product`;
     console.log(val);

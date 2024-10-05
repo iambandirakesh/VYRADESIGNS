@@ -28,10 +28,18 @@ const ProductSchema = new Schema(
       type: Number,
     },
     images: {
-      type: {},
+      type: [],
       required: true,
     },
     rating: {
+      type: Number,
+      default: 0,
+    },
+    totalRaings: {
+      type: Number,
+      default: 0,
+    },
+    totalReviews: {
       type: Number,
       default: 0,
     },

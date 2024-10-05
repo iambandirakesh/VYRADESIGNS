@@ -16,7 +16,6 @@ const userSchema = new Schema(
     },
     phone: {
       type: Number,
-      required: true,
       unique: true,
     },
     gender: {
@@ -30,6 +29,9 @@ const userSchema = new Schema(
       type: String,
     },
     Cart: {
+      type: [],
+    },
+    Address: {
       type: [],
     },
     isAdmin: {

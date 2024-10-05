@@ -4,15 +4,21 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { Store } from "./Redux/Store";
+import { Store, persistor } from "./Redux/Store"; // Import your persistor
+import { PersistGate } from "redux-persist/integration/react"; // Import PersistGate
 import { Toaster } from "react-hot-toast";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <Provider store={Store}>
-      <App />
-      <Toaster />
+      <PersistGate loading={null} persistor={persistor}>
+        {" "}
+        {/* Wrap App with PersistGate */}
+        <App />
+        <Toaster />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
