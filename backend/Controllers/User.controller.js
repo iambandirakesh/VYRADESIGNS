@@ -5,7 +5,7 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password, phone, gender, DateOfBirth, profilePic } =
       req.body;
-    if (!name || !email || !password || !phone) {
+    if (!name || !email || !password) {
       return res
         .status(400)
         .json({ status: false, message: "All fields are required" });
@@ -122,6 +122,25 @@ export const deleteUser = async (req, res) => {
       status: true,
       message: "User deleted successfully",
       data: deletedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+export const logOut = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true, // This should match the setting when the token was created
+      secure: true, // Only secure in production
+      sameSite: "None", // If you're using this option when creating the cookie
+      domain: "localhost", // Set the domain if needed
+      path: "/", // Make sure the path matches if you specified it
+    });
+
+    return res.status(200).json({
+      status: true,
+      message: "User logged out successfully",
     });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });

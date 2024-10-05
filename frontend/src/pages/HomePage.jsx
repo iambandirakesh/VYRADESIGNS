@@ -10,17 +10,13 @@ import { FaMoneyBillAlt } from "react-icons/fa";
 import { MdOutlineLocalShipping, MdContactPage } from "react-icons/md";
 import { FaRecycle } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
+import { memo } from "react";
 // Import slick styles
-import { useDispatch } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductSlider from "../Products/ProductSlider";
 import { Link } from "react-router-dom";
-import { setCategoryFilter } from "../Redux/FilterSlice";
-import { GetAllProducts } from "../apiCalls/Product";
-import { setProducts } from "../Redux/ProductsSlice";
 const HomePage = () => {
-  const dispatch = useDispatch();
   const settings = {
     dots: false,
     infinite: true,
@@ -31,19 +27,7 @@ const HomePage = () => {
     autoplaySpeed: 3000,
     arrows: false,
   };
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await GetAllProducts();
-      console.log(res.data);
-      if (res.data.status) {
-        dispatch(setProducts(res.data.data));
-      }
-    };
-    fetchProducts();
-  }, []);
-  const handleFilter = (data) => {
-    dispatch(setCategoryFilter(data));
-  };
+
   return (
     <div className="flex flex-col py-10 dark:bg-gray-900">
       <div className="flex flex-col lg:flex-row py-5 justify-around">
@@ -130,15 +114,12 @@ const HomePage = () => {
       </div>
 
       <div className="flex flex-col px-10 md:px-20 py-5 dark:text-slate-200 w-full gap-2">
-        <div
-          className=" flex gap-0 items-center cursor-pointer"
-          onClick={() => {
-            handleFilter("Bangels");
-          }}
-        >
-          <div className="text-xl font-semibold">Best Price on Bangels</div>
-          <MdNavigateNext size={25} className="translate-y-[2px]" />
-        </div>
+        <Link to="/products/Bangels">
+          <div className=" flex gap-0 items-center cursor-pointer">
+            <div className="text-xl font-semibold">Best Price on Bangels</div>
+            <MdNavigateNext size={25} className="translate-y-[2px]" />
+          </div>
+        </Link>
 
         <ProductSlider
           ProductsFilter={{
@@ -178,4 +159,4 @@ const HomePage = () => {
   );
 };
 
-export default Layout(HomePage);
+export default memo(Layout(HomePage));
