@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import toast from "react-hot-toast";
 const AddNewProduct = () => {
   const category = useSelector((state) => state.category.category);
+  console.log(category);
   const [Images, setImages] = useState([]);
   const [productData, setProductData] = useState({
     name: "",
@@ -78,7 +79,7 @@ const AddNewProduct = () => {
                   type="text"
                   name="name"
                   id="name"
-                  value={productData.name}
+                  value={productData?.name}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Type product name"
                   required={true}
@@ -96,7 +97,7 @@ const AddNewProduct = () => {
                   type="text"
                   name="brand"
                   id="brand"
-                  value={productData.brand}
+                  value={productData?.brand}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Product brand"
                   required={true}
@@ -114,7 +115,7 @@ const AddNewProduct = () => {
                   type="number"
                   name="price"
                   id="price"
-                  value={productData.price}
+                  value={productData?.price}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="$2999"
                   required={true}
@@ -141,7 +142,7 @@ const AddNewProduct = () => {
                   type="number"
                   name="quantity"
                   id="quantity"
-                  value={productData.quantity}
+                  value={productData?.quantity}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="12"
                   required={true}
@@ -187,9 +188,9 @@ const AddNewProduct = () => {
                   />
                 </label>
               </div>
-              {Images.length > 0 && (
+              {Images?.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-3 w-full">
-                  {Images.map((image, idx) => {
+                  {Images?.map((image, idx) => {
                     return (
                       <div className="relative">
                         <img
@@ -221,7 +222,7 @@ const AddNewProduct = () => {
                   id="description"
                   name="description"
                   rows="8"
-                  value={productData.description}
+                  value={productData?.description}
                   class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Your description here"
                   onChange={handleChange}

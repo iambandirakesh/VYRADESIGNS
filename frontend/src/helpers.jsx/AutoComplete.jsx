@@ -7,28 +7,21 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import { GetAllCategorys, CreateCategory } from "../apiCalls/Category";
+import { CreateCategory } from "../apiCalls/Category";
 import { useDispatch, useSelector } from "react-redux";
 import { SetCategory } from "../Redux/CategorySlice";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const filter = createFilterOptions();
-
 export default function FreeSoloCreateOptionDialog() {
-  const [categorys, setCategorys] = React.useState([]);
+  const filter = createFilterOptions();
+  const cate = useSelector((state) => state.category.category);
+  const products = useSelector((state) => state.products.products);
+  console.log(products, "Test1");
+  console.log(cate, "Test2");
+  const [categorys, setCategorys] = React.useState(cate);
   let dispatch = useDispatch();
   const mode = useSelector((state) => state.mode.mode);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const response = await GetAllCategorys();
-      console.log(response.data);
-      setCategorys(response.data);
-    };
-    fetchData();
-  }, []);
-
   const [value, setValue] = React.useState(null);
   const [open, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({ name: "" });
@@ -38,10 +31,10 @@ export default function FreeSoloCreateOptionDialog() {
     toggleOpen(false);
   };
 
-  React.useEffect(() => {
-    dispatch(SetCategory(value));
-    console.log(value);
-  }, [value]);
+  // React.useEffect(() => {
+  //   dispatch(SetCategory(value));
+  //   console.log(value);
+  // }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

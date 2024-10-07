@@ -36,14 +36,14 @@ function AllProducts() {
     setCurrentPage(2);
     setId(product._id);
     setEditProductData({
-      name: product.name,
-      brand: product.brand,
-      description: product.description,
-      price: product.price,
-      category: product.category,
-      categoryName: product.categoryName,
-      quantity: product.quantity,
-      images: product.images,
+      name: product?.name,
+      brand: product?.brand,
+      description: product?.description,
+      price: product?.price,
+      category: product?.category,
+      categoryName: product?.categoryName,
+      quantity: product?.quantity,
+      images: product?.images,
     });
     setImages(product.images);
   };
@@ -316,7 +316,7 @@ function AllProducts() {
                       />
                     </label>
                   </div>
-                  {Images.length > 0 && (
+                  {Images?.length > 0 && (
                     <div className=" flex flex-wrap justify-center gap-3 w-full">
                       {Images.map((image, idx) => {
                         return (
