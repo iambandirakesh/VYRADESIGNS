@@ -51,6 +51,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="checkout" element={<CheckOut />} />
+            <Route path="/profile" element={<h1>Profile</h1>} />
+            <Route path="*" element={<h1>404 Not Found</h1>} />
           </Routes>
         </Suspense>
       </BrowserRouter>

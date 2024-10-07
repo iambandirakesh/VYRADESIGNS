@@ -146,6 +146,13 @@ const Header = () => {
             )}
           </button>
           <div className="hiddden lg:flex flex-row gap-5 items-center">
+            {userData.isAdmin && (
+              <Link to="/Admin">
+                <div className="text-lg font-semibold cursor-pointer text-gray-900 dark:text-gray-100 hover:text-blue-600">
+                  View Admin Dashboard
+                </div>
+              </Link>
+            )}
             <div className="text-lg font-semibold cursor-pointer text-gray-900 dark:text-gray-100">
               About
             </div>
