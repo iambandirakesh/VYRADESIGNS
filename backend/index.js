@@ -8,7 +8,9 @@ import userRouter from "./Routes/User.route.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 const app = exprees();
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({ origin: "https://vyradesigns.onrender.com", credentials: true })
+);
 app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(exprees.json());
